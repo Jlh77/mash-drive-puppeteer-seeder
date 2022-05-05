@@ -1,0 +1,25 @@
+{
+  "name": "mash-drive-puppeteer-seeder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jlh77/mash-drive-puppeteer-seeder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jlh77/mash-drive-puppeteer-seeder/issues"
+  },
+  "homepage": "https://github.com/Jlh77/mash-drive-puppeteer-seeder#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "firebase": "^9.7.0",
+    "puppeteer": "^13.7.0"
+  }
+}

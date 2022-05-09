@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Jlh77/mash-drive-puppeteer-seeder#readme",
   "dependencies": {
+    "axios": "^0.27.2",
     "dotenv": "^16.0.0",
     "firebase": "^9.7.0",
     "puppeteer": "^13.7.0"

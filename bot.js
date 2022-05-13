@@ -40,39 +40,52 @@ const runSeed = async () => {
       "#root > div > div > div.css-view-1dbjc4n.r-display-6koalj.r-flexDirection-18u37iz.r-padding-edyy15 > div:nth-child(3)";
 
     const titleField =
-      "#root > div > div > div.css-view-1dbjc4n.r-flex-13awgt0 > div > div.css-view-1dbjc4n.r-bottom-1p0dtai.r-display-6koalj.r-flex-13awgt0.r-flexDirection-1d5kdc7.r-left-1d2f490.r-position-u8s1d.r-right-zchlnj.r-top-ipm5af > div > div > div > div > div:nth-child(4) > input";
+      "#root > div > div > div.css-view-1dbjc4n.r-flex-13awgt0 > div > div.css-view-1dbjc4n.r-bottom-1p0dtai.r-display-6koalj.r-flex-13awgt0.r-flexDirection-1d5kdc7.r-left-1d2f490.r-position-u8s1d.r-right-zchlnj.r-top-ipm5af > div > div > div > div > div:nth-child(3) > input";
 
-    const descField =
-      "#root > div > div > div.css-view-1dbjc4n.r-flex-13awgt0 > div > div.css-view-1dbjc4n.r-bottom-1p0dtai.r-display-6koalj.r-flex-13awgt0.r-flexDirection-1d5kdc7.r-left-1d2f490.r-position-u8s1d.r-right-zchlnj.r-top-ipm5af > div > div > div > div > div:nth-child(5) > input";
+    // const descField =
+    //   "#root > div > div > div.css-view-1dbjc4n.r-flex-13awgt0 > div > div.css-view-1dbjc4n.r-bottom-1p0dtai.r-display-6koalj.r-flex-13awgt0.r-flexDirection-1d5kdc7.r-left-1d2f490.r-position-u8s1d.r-right-zchlnj.r-top-ipm5af > div > div > div > div > div:nth-child(6) > input";
+    const imgField =
+      "#root > div > div > div.css-view-1dbjc4n.r-flex-13awgt0 > div > div.css-view-1dbjc4n.r-bottom-1p0dtai.r-display-6koalj.r-flex-13awgt0.r-flexDirection-1d5kdc7.r-left-1d2f490.r-position-u8s1d.r-right-zchlnj.r-top-ipm5af > div > div > div > div > div:nth-child(2) > input";
+
+    const uploadButton =
+      "#root > div > div > div.css-view-1dbjc4n.r-flex-13awgt0 > div > div.css-view-1dbjc4n.r-bottom-1p0dtai.r-display-6koalj.r-flex-13awgt0.r-flexDirection-1d5kdc7.r-left-1d2f490.r-position-u8s1d.r-right-zchlnj.r-top-ipm5af > div > div > div > div > div:nth-child(5) > div";
 
     // Loop through uploading files time
-    for (let i = 0, n = postData.length; i < n; i++) {
+    for (let i = 0, n = postData.length; i < 1; i++) {
       // Download image locally temporarily so we can upload it using the built in file input
       const image = await downloadImage(
         postData[i].image_url,
         "temp-post-image.jpg"
       );
-      console.log("Downloaded image...");
+      console.log(`Downloaded image ${postData[i].image_url}...`);
+      postData[i].image_url;
       // Nav to Upload screen
       await page.waitForSelector(uploadNavButton);
       await page.screenshot({ path: "bot_images/load1.png" });
       await page.click(uploadNavButton);
 
       // Upload stuff area
-      await page.click(
-        "#root > div > div > div.css-view-1dbjc4n.r-flex-13awgt0 > div > div.css-view-1dbjc4n.r-bottom-1p0dtai.r-display-6koalj.r-flex-13awgt0.r-flexDirection-1d5kdc7.r-left-1d2f490.r-position-u8s1d.r-right-zchlnj.r-top-ipm5af > div > div > div > div > div.css-cursor-18t94o4.css-view-1dbjc4n.r-backgroundColor-14sbq61.r-borderRadius-1jkafct.r-cursor-1loqt21.r-touchAction-1otgn73.r-transitionProperty-1i6wzkk.r-userSelect-lrvibr"
-      );
       await page.screenshot({ path: "bot_images/load2.png" });
 
-      await page.waitForSelector(
-        "#root > div > div > div.css-view-1dbjc4n.r-flex-13awgt0 > div > div.css-view-1dbjc4n.r-bottom-1p0dtai.r-display-6koalj.r-flex-13awgt0.r-flexDirection-1d5kdc7.r-left-1d2f490.r-position-u8s1d.r-right-zchlnj.r-top-ipm5af > div > div > div > div > div.css-cursor-18t94o4.css-view-1dbjc4n.r-backgroundColor-14sbq61.r-borderRadius-1jkafct.r-cursor-1loqt21.r-touchAction-1otgn73.r-transitionProperty-1i6wzkk.r-userSelect-lrvibr"
-      );
+      await page.waitForSelector(uploadButton);
       await page.type(titleField, postData[i].title);
-      await page.type(descField, postData[i].description);
+      await page.type(
+        imgField,
+        "/home/joe/northcoders/projects/mash-drive-puppeteer-seeder/temp-post-image.jpg"
+      );
 
       await page.screenshot({ path: "bot_images/before-upload.png" });
+
+      await page.click(uploadButton);
+      console.log("Submitted...");
+      // unfortunately with thjis method no programmatic  way to wait forr upload, just timeout
+      console.log("Now waiting...");
+      await page.screenshot({ path: "bot_images/beforewait.png" });
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await page.screenshot({ path: "bot_images/afterwait.png" });
       // refresh for next loop (maybe unnecesarry)
-      await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+      console.log(`Image ${i} done...`);
+      await page.reload();
     }
 
     console.log("Finished!");
@@ -81,4 +94,13 @@ const runSeed = async () => {
     console.log("ERR>>>>>", err, "<<<<< ERR");
   }
 };
-runSeed();
+
+const temp = async () => {
+  for (let i = 0, n = postData.length; i < n; i++) {
+    const image = await downloadImage(
+      postData[i].image_url,
+      `temp-post-image${i}.jpg`
+    );
+  }
+};
+temp();
